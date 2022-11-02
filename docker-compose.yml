@@ -1,0 +1,30 @@
+version: "3.4"
+
+services:
+  backend:
+    build:
+      context: ./services/backend
+      target: backend
+    command: ["./scripts/run.sh"]
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    environment:
+      - GREETING=Apptension
+    stdin_open: true
+    tty: true
+
+  ssmeditor:
+    stdin_open: true
+    tty: true
+    build:
+      context: ./tools/ssm-editor
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
+      - AWS_SECURITY_TOKEN=${AWS_SECURITY_TOKEN}
+      - AWS_SESSION_EXPIRATION=${AWS_SESSION_EXPIRATION}
+      - CHAMBER_ENV=${CHAMBER_ENV}
+      - CHAMBER_SERVICE=${CHAMBER_SERVICE}
